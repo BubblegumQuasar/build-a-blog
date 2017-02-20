@@ -36,7 +36,7 @@ class Blogpost(db.Model):
 
 
 class Handler(webapp2.RequestHandler):
-    blog = db.GqlQuery("SELECT * FROM Blogpost ORDER BY created DESC LIMIT 5")
+    # blog = db.GqlQuery("SELECT * FROM Blogpost ORDER BY created DESC LIMIT 5")
     def write(self, *a, **kw):
         self.response.out.write(*a, **kw)
 
@@ -52,7 +52,11 @@ class Handler(webapp2.RequestHandler):
 
 class MainPage(Handler):
     def render_posts(self, title="", content="", error="", blog=""):
+       blog = db.GqlQuery("SELECT * FROM Blogpost ORDER BY created DESC LIMIT 5")
        self.render("main-page.html", title=title, content=content, error=error, blog=blog)
+
+    def get(self, title="", content="", error="", blog=""):
+        self.render_posts()
 
 class NewPost(Handler):
     def get(self, title="", content="", error=""):
@@ -65,11 +69,10 @@ class NewPost(Handler):
         if title and content:
             a = Blogpost(title=title, content=content)
             a.put()
-
-            self.redirect("/blog")
+            self.redirect("/blog%s" % a.key().id())
         else:
             error = "We need both a title and some content!"
-            self.render(title, content, error)
+            self.render("submit.html", title=title, content=content, error=error)
 
 
 
