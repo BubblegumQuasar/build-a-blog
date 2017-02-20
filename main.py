@@ -51,12 +51,12 @@ class Handler(webapp2.RequestHandler):
     
 
 class MainPage(Handler):
-    def render_posts(self, title="", content="", error=""):
-       self.render("main-page.html" title=title, content=content, error=error, blog=blog)
+    def render_posts(self, title="", content="", error="", blog=""):
+       self.render("main-page.html", title=title, content=content, error=error, blog=blog)
 
 class NewPost(Handler):
-    def get(self):
-        self.render("submit.html" title=title, content=content, error=error)
+    def get(self, title="", content="", error=""):
+        self.render("submit.html", title=title, content=content, error=error)
 
     def post(self):
         title = self.request.get("title")
