@@ -74,8 +74,8 @@ class NewPost(Handler):
             error = "We need both a title and some content!"
             self.render("submit.html", title=title, content=content, error=error)
 
-class ViewPostHandler(webapp2.RequestHandler):
-def indiv_post(self, title="", content=""):
+class ViewPostHandler(Handler):
+    def indiv_post(self, title="", content=""):
        self.render("indiv_post.html", title=title, content=content)
 
     def get(self, id):
@@ -84,7 +84,7 @@ def indiv_post(self, title="", content=""):
             self.indiv_post(title=b.title, content=b.content)
         else:
             error = "We didn't find that. Please double check for typos."
-            self. response.out.write(error)
+            self.response.out.write(error)
 
 
 
