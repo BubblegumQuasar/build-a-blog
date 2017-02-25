@@ -69,7 +69,8 @@ class NewPost(Handler):
         if title and content:
             a = Blogpost(title=title, content=content)
             a.put()
-            self.redirect("/blog")
+            id = a.key().id()
+            self.redirect('/blog/%s' % id)
         else:
             error = "We need both a title and some content!"
             self.render("submit.html", title=title, content=content, error=error)
